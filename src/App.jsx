@@ -6,15 +6,7 @@ import Layout from './components/Layout/Layout';
 
 function App() {
     return (
-        <BrowserRouter>
-            <Layout>
-                <Routes>
-                    <Route path="/" element={<Login />} />
-                    <Route path="/register" element={<Register />} />
-                    <Route path="/dashboard" element={<Dashboard />} />
-                </Routes>
-            </Layout>
-        </BrowserRouter>
+       <h1>Student Task Planner</h1>
     );
 }
 
