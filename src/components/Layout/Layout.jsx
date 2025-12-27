@@ -1,24 +1,32 @@
 
 
-import { Link } from 'react-router-dom';
-import './Layout.css';
+import { NavLink, Outlet } from 'react-router-dom';
 
-function Layout({ children }) {
+function Layout() {
     return (
         <>
-            <header className="header">
-                <nav className="nav">
-                    <Link to="/">Login</Link>
-                    <Link to="/register">Register</Link>
-                    <Link to="/dashboard">Dashboard</Link>
+            <header>
+                <nav>
+                    <ul>
+                        <li>
+                            <NavLink to="/">Login</NavLink>
+                        </li>
+                        <li>
+                            <NavLink to="/register">Register</NavLink>
+                        </li>
+                        <li>
+                            <NavLink to="/dashboard">Dashboard</NavLink>
+                        </li>
+                    </ul>
                 </nav>
             </header>
 
-            <main className="main">
-                {children}
+            <main>
+                <Outlet />
             </main>
         </>
     );
 }
 
 export default Layout;
+
