@@ -1,8 +1,8 @@
 function Login() {
     return (
-        <div style = {{padding:'40px',background:'white'}}>
-     <h1>Login Page</h1>
-    </div>
+
+     <h2>Login Page</h2>
+
 );
 }
 export default Login;

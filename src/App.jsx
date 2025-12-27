@@ -6,8 +6,14 @@ import Layout from './components/Layout/Layout';
 
 function App() {
     return (
-       <h1>Student Task Planner</h1>
-    );
+        <BrowserRouter>
+            <Routes>
+                <Route path = "/" element={<Login />} />
+                <Route path= "/register" element={<Register />} />
+                <Route path= "/dashboard" element={<Dashboard />} />
+            </Routes>
+        </BrowserRouter>
+);
 }
 
 export default App;
