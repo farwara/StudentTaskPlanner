@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import Layout from './components/Layout/Layout';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -9,14 +9,14 @@ function App() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route element={<Layout />}>
-                    <Route path="/" element={<Login />} />
-                    <Route path="/register" element={<Register />} />
+                <Route element={<Layout/>}>
+                    <Route path="/" element={<Login/>}/>
+                    <Route path="/register" element={<Register/>}/>
                     <Route
                         path="/dashboard"
                         element={
                             <ProtectedRoute>
-                                <Dashboard />
+                                <Dashboard/>
                             </ProtectedRoute>
                         }
                     />
