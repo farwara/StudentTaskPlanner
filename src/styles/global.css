@@ -32,6 +32,13 @@ nav a {
 nav a.active {
     text-decoration: underline;
 }
+nav button {
+    background: none;
+    border: none;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
 
 main {
     padding: 2rem;
