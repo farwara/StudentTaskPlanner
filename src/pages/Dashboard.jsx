@@ -1,6 +1,6 @@
 
 
-
+import Task from '../components/Task/Task';
 
 function Dashboard() {
     return (
@@ -11,9 +11,9 @@ function Dashboard() {
                 <h3>Your Tasks</h3>
 
                 <ul>
-                    <li>Task 1 (placeholder)</li>
-                    <li>Task 2 (placeholder)</li>
-                    <li>Task 3 (placeholder)</li>
+                    <Task title="Task 1 (placeholder)" completed={false} />
+                    <Task title="Task 2 (placeholder)" completed={true} />
+                    <Task title="Task 3 (placeholder)" completed={false} />
                 </ul>
             </section>
         </div>
