@@ -1,4 +1,4 @@
-function Task({ title, completed }) {
+function  Task({ title, completed }) {
     return (
         <li>
             <span>{title}</span>

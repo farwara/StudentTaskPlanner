@@ -1,62 +1,63 @@
 
 
-import { useContext, useState } from 'react';
-import { AuthContext } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
+
+import { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import axiosInstance from "../api/axios";
+import { AuthContext } from "../context/AuthContext.jsx";
 
 function Login() {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
+
     const { login } = useContext(AuthContext);
     const navigate = useNavigate();
 
-    const [formData, setFormData] = useState({
-        email: '',
-        password: '',
-    });
+    async function handleSubmit(e) {
+        e.preventDefault();
+        setError("");
 
-    const handleChange = (event) => {
-        const { name, value } = event.target;
-        setFormData((prev) => ({
-            ...prev,
-            [name]: value,
-        }));
-    };
+        try {
+            const response = await axiosInstance.post("/api/login", {
+                email,
+                password,
+            });
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
+            const { token, user } = response.data;
 
-        // mock login
-        login({ email: formData.email });
-        navigate('/dashboard');
-    };
+            // save user + token in context
+            login(user, token);
+
+            navigate("/dashboard");
+        } catch (err) {
+            console.error(err);
+            setError("Login failed. Check your email or password.");
+        }
+    }
 
     return (
         <div>
-            <h2>Login</h2>
+            <h1>Login</h1>
+
+            {error && <p style={{ color: "red" }}>{error}</p>}
 
             <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Email</label>
-                    <br />
-                    <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
+                <input
+                    type="email"
+                    placeholder="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                />
 
-                <div>
-                    <label>Password</label>
-                    <br />
-                    <input
-                        type="password"
-                        name="password"
-                        value={formData.password}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
+                <input
+                    type="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                />
 
                 <button type="submit">Login</button>
             </form>
@@ -65,3 +66,4 @@ function Login() {
 }
 
 export default Login;
+

@@ -1,0 +1,70 @@
+
+
+{
+"collections": [
+{
+"name": "users",
+"auth": {
+"register": true,
+"login": true
+},
+"fields": [
+{
+"name": "email",
+"type": "string",
+"required": true,
+"unique": true
+},
+{
+"name": "password",
+"type": "string",
+"required": true
+},
+{
+"name": "roles",
+"type": "array",
+"items": {
+"type": "string"
+},
+"default": ["user"]
+}
+]
+},
+{
+"name": "tasks",
+"fields": [
+{
+"name": "title",
+"type": "string",
+"required": true
+},
+{
+"name": "description",
+"type": "string"
+},
+{
+"name": "completed",
+"type": "boolean",
+"default": false
+},
+{
+"name": "dueDate",
+"type": "string"
+},
+{
+"name": "owner",
+"type": "reference",
+"collection": "users",
+"required": true
+}
+],
+"permissions": {
+"GET": ["user"],
+"POST": ["user"],
+"PUT": ["user"],
+"PATCH": ["user"],
+"DELETE": ["user"]
+}
+}
+]
+}
