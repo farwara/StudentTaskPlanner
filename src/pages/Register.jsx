@@ -1,60 +1,45 @@
-
-
-
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axiosInstance from "../api/axios";
+import  { useState } from 'react';
 
 function Register() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
-    const navigate = useNavigate();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
-    async function handleSubmit(e) {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        setError("");
-
-        try {
-            await axiosInstance.post("/api/users", {
-                email,
-                password,
-            });
-
-            navigate("/login");
-        } catch (err) {
-            console.error("REGISTER ERROR:", err);
-            setError("Registration failed");
-        }
-    }
+        console.log('Register submit disabled (API not connected yet)');
+    };
 
     return (
-        <div>
-            <h1>Register</h1>
-
-            {error && <p style={{ color: "red" }}>{error}</p>}
+        <>
+            <h2>Register</h2>
 
             <form onSubmit={handleSubmit}>
-                <input
-                    type="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                />
+                <div>
+                    <label>Email</label><br />
+                    <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                    />
+                </div>
 
-                <input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                />
+                <div>
+                    <label>Password</label><br />
+                    <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                    />
+                </div>
 
                 <button type="submit">Register</button>
             </form>
-        </div>
+        </>
     );
 }
 
 export default Register;
+
+

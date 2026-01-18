@@ -1,42 +1,20 @@
 
-
 {
 "collections": [
 {
-"name": "users",
-"auth": {
-"register": true,
-"login": true
-},
-"fields": [
-{
-"name": "email",
-"type": "string",
-"required": true,
-"unique": true
-},
-{
-"name": "password",
-"type": "string",
-"required": true
-},
-{
-"name": "roles",
-"type": "array",
-"items": {
-"type": "string"
-},
-"default": ["user"]
-}
-]
-},
-{
 "name": "tasks",
+"endpoint": "/api/tasks",
+"permissions": {
+"GET": ["string"],
+"POST": ["string"],
+"PUT": ["string"],
+"PATCH": ["string"],
+"DELETE": ["string"]
+},
 "fields": [
 {
 "name": "title",
-"type": "string",
-"required": true
+"type": "string"
 },
 {
 "name": "description",
@@ -44,27 +22,9 @@
 },
 {
 "name": "completed",
-"type": "boolean",
-"default": false
-},
-{
-"name": "dueDate",
-"type": "string"
-},
-{
-"name": "owner",
-"type": "reference",
-"collection": "users",
-"required": true
+"type": "boolean"
 }
-],
-"permissions": {
-"GET": ["user"],
-"POST": ["user"],
-"PUT": ["user"],
-"PATCH": ["user"],
-"DELETE": ["user"]
-}
+]
 }
 ]
 }
