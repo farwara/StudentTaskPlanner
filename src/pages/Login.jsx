@@ -2,9 +2,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axiosClient from '../api/axiosClient';
+import { useAuth } from '../context/AuthContext';
 
 function Login() {
     const navigate = useNavigate();
+    const { login } = useAuth();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -22,11 +24,18 @@ function Login() {
 
             const token = response.data.accessToken;
 
-            localStorage.setItem('token', token);
+            if (!token) {
+                throw new Error('No token returned');
+            }
+
+            // Store token + update auth state
+            login(token);
+
+            // Go to dashboard
             navigate('/dashboard');
         } catch (err) {
-            console.error(err.response?.data || err);
-            setError('Login failed');
+            console.error(err);
+            setError('Login failed. Check your credentials.');
         }
     }
 
@@ -34,7 +43,7 @@ function Login() {
         <main>
             <h1>Login</h1>
 
-            {error && <p>{error}</p>}
+            {error && <p className="error">{error}</p>}
 
             <form onSubmit={handleSubmit}>
                 <label>
