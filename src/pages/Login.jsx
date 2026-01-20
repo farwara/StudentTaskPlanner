@@ -1,47 +1,66 @@
 
-
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axiosClient from '../api/axiosClient';
 
 function Login() {
+    const navigate = useNavigate();
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
 
-    const handleSubmit = (e) => {
+    async function handleSubmit(e) {
         e.preventDefault();
-        console.log('Login submit disabled (API not connected yet)');
-    };
+        setError('');
+
+        try {
+            const response = await axiosClient.post('/api/auth/signin', {
+                username: email,
+                password: password,
+            });
+
+            const token = response.data.accessToken;
+
+            localStorage.setItem('token', token);
+            navigate('/dashboard');
+        } catch (err) {
+            console.error(err.response?.data || err);
+            setError('Login failed');
+        }
+    }
 
     return (
-        <>
-            <h2>Login</h2>
+        <main>
+            <h1>Login</h1>
+
+            {error && <p>{error}</p>}
 
             <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Email</label><br />
+                <label>
+                    Email
                     <input
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
                     />
-                </div>
+                </label>
 
-                <div>
-                    <label>Password</label><br />
+                <label>
+                    Password
                     <input
                         type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
                     />
-                </div>
+                </label>
 
                 <button type="submit">Login</button>
             </form>
-        </>
+        </main>
     );
 }
 
 export default Login;
-
-

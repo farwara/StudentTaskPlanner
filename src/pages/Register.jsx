@@ -1,45 +1,64 @@
-import  { useState } from 'react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axiosClient from '../api/axiosClient';
 
 function Register() {
+    const navigate = useNavigate();
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
 
-    const handleSubmit = (e) => {
+    async function handleSubmit(e) {
         e.preventDefault();
-        console.log('Register submit disabled (API not connected yet)');
-    };
+        setError('');
+
+        try {
+            await axiosClient.post('/api/auth/signup', {
+                username: email,
+                email: email,
+                password: password,
+                role: ['user'],
+            });
+
+            navigate('/');
+        } catch (err) {
+            console.error(err.response?.data || err);
+            setError('Registration failed');
+        }
+    }
 
     return (
-        <>
-            <h2>Register</h2>
+        <main>
+            <h1>Register</h1>
+
+            {error && <p>{error}</p>}
 
             <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Email</label><br />
+                <label>
+                    Email
                     <input
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
                     />
-                </div>
+                </label>
 
-                <div>
-                    <label>Password</label><br />
+                <label>
+                    Password
                     <input
                         type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
                     />
-                </div>
+                </label>
 
                 <button type="submit">Register</button>
             </form>
-        </>
+        </main>
     );
 }
 
 export default Register;
-
-
