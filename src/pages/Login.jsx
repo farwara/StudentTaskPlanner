@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axiosClient from '../api/axiosClient';
 import { useAuth } from '../context/AuthContext';
-
+import {Link} from 'react-router-dom';
 function Login() {
     const navigate = useNavigate();
     const { login } = useAuth();
@@ -68,6 +68,8 @@ function Login() {
 
                 <button type="submit">Login</button>
             </form>
+            <p>Don't have an account? <Link to="/register">Register here </Link>
+            </p>
         </main>
     );
 }

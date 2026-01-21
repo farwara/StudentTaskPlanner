@@ -1,5 +1,6 @@
+
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import axiosClient from '../api/axiosClient';
 
 function Register() {
@@ -21,10 +22,11 @@ function Register() {
                 role: ['user'],
             });
 
-            navigate('/');
+            // After successful registration → go to login
+            navigate('/login');
         } catch (err) {
-            console.error(err.response?.data || err);
-            setError('Registration failed');
+            console.error(err);
+            setError('Registration failed. Try another email or password.');
         }
     }
 
@@ -32,7 +34,7 @@ function Register() {
         <main>
             <h1>Register</h1>
 
-            {error && <p>{error}</p>}
+            {error && <p className="error">{error}</p>}
 
             <form onSubmit={handleSubmit}>
                 <label>
@@ -57,6 +59,7 @@ function Register() {
 
                 <button type="submit">Register</button>
             </form>
+            <p> Don't have an account? <Link to= "/login">Login</Link></p>
         </main>
     );
 }
