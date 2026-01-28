@@ -1,42 +1,39 @@
-//work in progress :task CRUD functionality will be added next
-//WIP:task CRUD functionality will be added next
-import { useEffect, useState } from 'react';
-import axiosClient from '../api/axiosClient';
 
+import { useEffect, useState } from 'react';
+import { apiFetch } from '../api/api';
+import TaskCard from '../components/TaskCard';
+import {Link} from 'react-router-dom';
 function Dashboard() {
     const [tasks, setTasks] = useState([]);
     const [error, setError] = useState('');
 
-    useEffect(() => {
-        async function fetchTasks() {
-            try {
-                const response = await axiosClient.get('/api/tasks');
-                setTasks(response.data);
-            } catch (err) {
-                console.error(err);
-                setError('Failed to load tasks');
-            }
+    async function loadTasks() {
+        try {
+            const data = await apiFetch('/api/tasks');
+            setTasks(data);
+        } catch (err) {
+            console.error(err);
+            setError('Failed to load tasks');
         }
+    }
 
-        fetchTasks();
+    useEffect(() => {
+        loadTasks();
     }, []);
 
     return (
         <main>
-            <h1>My Tasks</h1>
+            <h1>Dashboard</h1>
 
-            {error && <p className="error">{error}</p>}
+            {/* ADD TASK BUTTON */}
+            <Link to="/add-task">
+                <button>Add Task</button>
+            </Link>
+            {error && <p>{error}</p>}
 
-            {tasks.length === 0 && <p>No tasks found.</p>}
-
-            <ul>
-                {tasks.map((task) => (
-                    <li key={task.id}>
-                        <strong>{task.title}</strong>
-                        <p>{task.description}</p>
-                    </li>
-                ))}
-            </ul>
+            {tasks.map(task => (
+                <TaskCard key={task.id} task={task} reload={loadTasks} />
+            ))}
         </main>
     );
 }

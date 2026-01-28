@@ -1,32 +1,26 @@
 
-import { useState } from 'react';
-import {Link, useNavigate} from 'react-router-dom';
-import axiosClient from '../api/axiosClient';
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
-function Register() {
+export default function Register() {
     const navigate = useNavigate();
+    const { register } = useAuth();
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
 
     async function handleSubmit(e) {
         e.preventDefault();
-        setError('');
+        setError("");
 
         try {
-            await axiosClient.post('/api/auth/signup', {
-                username: email,
-                email: email,
-                password: password,
-                role: ['user'],
-            });
-
-            // After successful registration → go to login
-            navigate('/login');
+            await register(email, password, ["user"]);
+            navigate("/login");
         } catch (err) {
             console.error(err);
-            setError('Registration failed. Try another email or password.');
+            setError("Registration failed");
         }
     }
 
@@ -34,34 +28,31 @@ function Register() {
         <main>
             <h1>Register</h1>
 
-            {error && <p className="error">{error}</p>}
+            {error && <p>{error}</p>}
 
             <form onSubmit={handleSubmit}>
-                <label>
-                    Email
-                    <input
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
-                </label>
+                <input
+                    type="email"
+                    placeholder="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                />
 
-                <label>
-                    Password
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                </label>
+                <input
+                    type="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                />
 
-                <button type="submit">Register</button>
+                <button type="submit">Create account</button>
             </form>
-            <p> Don't have an account? <Link to= "/login">Login</Link></p>
+
+            <p>
+                Already have an account? <Link to="/login">Login</Link>
+            </p>
         </main>
     );
 }
-
-export default Register;

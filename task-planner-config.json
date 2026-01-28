@@ -3,28 +3,39 @@
 "collections": [
 {
 "name": "tasks",
-"endpoint": "/api/tasks",
-"permissions": {
-"GET": ["string"],
-"POST": ["string"],
-"PUT": ["string"],
-"PATCH": ["string"],
-"DELETE": ["string"]
-},
 "fields": [
+{ "name": "title", "type": "string", "required": true },
+{ "name": "description", "type": "string" },
+{ "name": "completed", "type": "boolean", "default": false }
+],
+"permissions": {
+"GET": ["user", "admin"],
+"POST": ["user", "admin"],
+"PUT": ["user", "admin"],
+"PATCH": ["user", "admin"],
+"DELETE": ["user", "admin"]
+}
+}
+],
+"users": [
 {
-"name": "title",
-"type": "string"
+"email": "admin@taskplanner.nl",
+"password": "admin123",
+"roles": ["admin"]
 },
 {
-"name": "description",
-"type": "string"
-},
+"email": "user@taskplanner.nl",
+"password": "user123",
+"roles": ["user"]
+}
+],
+"data": {
+"tasks": [
 {
-"name": "completed",
-"type": "boolean"
+"title": "Example task",
+"description": "This is a demo task",
+"completed": false
 }
 ]
 }
-]
 }

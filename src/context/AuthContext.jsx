@@ -1,27 +1,49 @@
-import { createContext, useContext, useState } from 'react';
 
-const AuthContext = createContext();
+import { createContext, useContext, useMemo, useState } from "react";
+import { apiFetch } from "../api/api";
+
+const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
-    const [isAuthenticated, setIsAuthenticated] = useState(
-        Boolean(localStorage.getItem('token'))
-    );
+    const [user, setUser] = useState(() => {
+        const saved = localStorage.getItem("user");
+        return saved ? JSON.parse(saved) : null;
+    });
 
-    function login(token) {
-        localStorage.setItem('token', token);
-        setIsAuthenticated(true);
+    async function login(email, password) {
+        const data = await apiFetch("/api/login", {
+            method: "POST",
+            body: JSON.stringify({ email, password }),
+        });
+
+        // ✅ NOVI uses "token" (not accessToken)
+        localStorage.setItem("token", data.token);
+
+        // ✅ store user info if provided
+        localStorage.setItem("user", JSON.stringify(data.user));
+        setUser(data.user);
+    }
+
+    async function register(email, password) {
+        await apiFetch("/api/users", {
+            method: "POST",
+            body: JSON.stringify({
+                email,
+                password,
+                roles: ["user"],
+            }),
+        });
     }
 
     function logout() {
-        localStorage.removeItem('token');
-        setIsAuthenticated(false);
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        setUser(null);
     }
 
-    return (
-        <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
-            {children}
-        </AuthContext.Provider>
-    );
+    const value = useMemo(() => ({ user, login, register, logout }), [user]);
+
+    return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 export function useAuth() {

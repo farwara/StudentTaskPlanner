@@ -1,41 +1,27 @@
 
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axiosClient from '../api/axiosClient';
-import { useAuth } from '../context/AuthContext';
-import {Link} from 'react-router-dom';
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+
 function Login() {
     const navigate = useNavigate();
     const { login } = useAuth();
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
+
 
     async function handleSubmit(e) {
         e.preventDefault();
-        setError('');
+        setError("");
 
         try {
-            const response = await axiosClient.post('/api/auth/signin', {
-                username: email,
-                password: password,
-            });
-
-            const token = response.data.accessToken;
-
-            if (!token) {
-                throw new Error('No token returned');
-            }
-
-            // Store token + update auth state
-            login(token);
-
-            // Go to dashboard
-            navigate('/dashboard');
+            await login(email, password);
+            navigate("/dashboard");
         } catch (err) {
             console.error(err);
-            setError('Login failed. Check your credentials.');
+            setError("Login failed");
         }
     }
 
@@ -43,33 +29,29 @@ function Login() {
         <main>
             <h1>Login</h1>
 
-            {error && <p className="error">{error}</p>}
+            {error && <p>{error}</p>}
 
             <form onSubmit={handleSubmit}>
-                <label>
-                    Email
-                    <input
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
-                </label>
+                <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Email"
+                    required
+                />
 
-                <label>
-                    Password
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                </label>
+                <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Password"
+                    required
+                />
 
                 <button type="submit">Login</button>
             </form>
-            <p>Don't have an account? <Link to="/register">Register here </Link>
-            </p>
+
+            <Link to="/register">Register</Link>
         </main>
     );
 }
