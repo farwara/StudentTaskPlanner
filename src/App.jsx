@@ -7,9 +7,13 @@ import Dashboard from "./pages/Dashboard";
 import AddTask from "./pages/AddTask";
 
 import PrivateRoute from "./routes/PrivateRoute";
-
+import NavBar from "./components/NavBar";
+import { useAuth } from "./context/AuthContext";
 function App() {
+    const {user} =useAuth();
     return (
+        <>
+            {user && <NavBar />}
         <Routes>
             {/* Always redirect home to login */}
             <Route path="/" element={<Navigate to="/login" replace />} />
@@ -40,6 +44,7 @@ function App() {
             {/* Fallback */}
             <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
+            </>
     );
 }
 

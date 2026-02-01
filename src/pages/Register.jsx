@@ -30,29 +30,35 @@ export default function Register() {
 
             {error && <p>{error}</p>}
 
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                />
+            <form className="card" onSubmit={handleSubmit}>
+                <div className="field">
+                    <label>Email</label>
+                    <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="e.g. farwa@test.com"
+                        required
+                    />
+                </div>
 
-                <input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                />
+                <div className="field">
+                    <label>Password</label>
+                    <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder="Choose a password"
+                        required
+                    />
+                </div>
 
-                <button type="submit">Create account</button>
+                <button className="btn" type="submit">Create account</button>
+
+                <p className="muted">
+                    Already have an account? <Link to="/login">Back to login</Link>
+                </p>
             </form>
-
-            <p>
-                Already have an account? <Link to="/login">Login</Link>
-            </p>
         </main>
     );
 }
