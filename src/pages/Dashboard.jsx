@@ -4,6 +4,7 @@ import { apiFetch } from '../api/api';
 import TaskCard from '../components/TaskCard';
 import {Link} from 'react-router-dom';
 function Dashboard() {
+
     const [tasks, setTasks] = useState([]);
     const [error, setError] = useState('');
 
@@ -22,18 +23,20 @@ function Dashboard() {
     }, []);
 
     return (
-        <main>
-            <h1>Dashboard</h1>
+        <main className="container">
+            <h1 className="page-title">Dashboard</h1>
 
-            {/* ADD TASK BUTTON */}
-            <Link to="/add-task">
-                <button>Add Task</button>
-            </Link>
-            {error && <p>{error}</p>}
+            {error && <p className="error">{error}</p>}
 
-            {tasks.map(task => (
-                <TaskCard key={task.id} task={task} reload={loadTasks} />
-            ))}
+            <div className="grid">
+                {tasks.map((task) => (
+                    <TaskCard
+                        key={task.id}
+                        task={task}
+                        reload={loadTasks}
+                    />
+                ))}
+            </div>
         </main>
     );
 }

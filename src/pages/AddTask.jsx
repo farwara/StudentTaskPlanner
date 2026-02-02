@@ -31,28 +31,35 @@ export default function AddTask() {
     }
 
     return (
-        <main>
-            <h1>Add Task</h1>
+        <main className="container">
+            <h1 className="page-title">Add task</h1>
 
-            {error && <p>{error}</p>}
+            {error && <p className="error">{error}</p>}
 
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    placeholder="Title"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    required
-                />
+            <form className="card" onSubmit={handleSubmit}>
+                <div className="field">
+                    <label>Title</label>
+                    <input
+                        type="text"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        placeholder="e.g. Buy groceries"
+                        required
+                    />
+                </div>
 
-                <textarea
-                    placeholder="Description"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                />
+                <div className="field">
+                    <label>Description</label>
+                    <textarea
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                        placeholder="Optional details..."
+                    />
+                </div>
 
-                <button type="submit">Save Task</button>
+                <button className="btn" type="submit">Save task</button>
             </form>
+
         </main>
     );
 }
