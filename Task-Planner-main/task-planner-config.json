@@ -1,0 +1,30 @@
+
+{
+"collections": [
+{
+"name": "tasks",
+"endpoint": "/api/tasks",
+"permissions": {
+"GET": ["string"],
+"POST": ["string"],
+"PUT": ["string"],
+"PATCH": ["string"],
+"DELETE": ["string"]
+},
+"fields": [
+{
+"name": "title",
+"type": "string"
+},
+{
+"name": "description",
+"type": "string"
+},
+{
+"name": "completed",
+"type": "boolean"
+}
+]
+}
+]
+}
